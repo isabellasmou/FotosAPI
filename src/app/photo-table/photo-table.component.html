@@ -1,0 +1,26 @@
+<table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Título</th>
+        <th>Ações</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let photo of photos">
+        <td>{{ photo.id }}</td>
+        <td>{{ photo.title }}</td>
+        <td>
+          <button (click)="viewDetails(photo.id)">Visualizar</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  
+  <div class="modal" *ngIf="isModalOpen">
+    <div class="modal-content">
+      <span class="close" (click)="closeModal()">&times;</span>
+      <app-photo-detail [photoId]="selectedPhotoId"></app-photo-detail>
+    </div>
+  </div>
+  
