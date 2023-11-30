@@ -1,26 +1,36 @@
-<table>
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>Título</th>
-        <th>Ações</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let photo of photos">
-        <td>{{ photo.id }}</td>
-        <td>{{ photo.title }}</td>
-        <td>
-          <button (click)="viewDetails(photo.id)">Visualizar</button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-  
-  <div class="modal" *ngIf="isModalOpen">
-    <div class="modal-content">
-      <span class="close" (click)="closeModal()">&times;</span>
-      <app-photo-detail [photoId]="selectedPhotoId"></app-photo-detail>
-    </div>
-  </div>
-  
+<mat-table [dataSource]="photos">
+
+  <ng-container matColumnDef="id">
+    <mat-header-cell *matHeaderCellDef>ID</mat-header-cell>
+    <mat-cell *matCellDef="let photo">{{ photo.id }}</mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="title">
+    <mat-header-cell *matHeaderCellDef>Título</mat-header-cell>
+    <mat-cell *matCellDef="let photo">{{ photo.title }}</mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="actions">
+    <mat-header-cell *matHeaderCellDef>Ações</mat-header-cell>
+    <mat-cell *matCellDef="let photo">
+      <button mat-button (click)="viewDetails(photo.id)">Visualizar</button>
+    </mat-cell>
+  </ng-container>
+
+  <mat-header-row *matHeaderRowDef="['id', 'title', 'actions']"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: ['id', 'title', 'actions'];"></mat-row>
+</mat-table>
+
+<ng-template #modalTemplate>
+  <h2 mat-dialog-title>Detalhes da Foto</h2>
+  <mat-dialog-content>
+    <app-photo-detail [photoId]="selectedPhotoId"></app-photo-detail>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button mat-button (click)="closeModal()">Fechar</button>
+  </mat-dialog-actions>
+</ng-template>
+
+<button (click)="prevPage()">Anterior</button>
+<button (click)="nextPage()">Próximo</button>
+
